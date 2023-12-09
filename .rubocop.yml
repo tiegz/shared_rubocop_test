@@ -1,0 +1,150 @@
+require:
+  - rubocop-rspec
+  - rubocop-rails
+  - rubocop-graphql
+
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+
+Metrics/BlockLength:
+  Max: 100
+  Exclude:
+    - config/routes.rb
+    - spec/**/*_spec.rb
+    - spec/factories.rb
+    - lib/tasks/*.rake
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - "spec/**/*"
+
+# metrics and documentation. code is complex as it needs to be,
+# and docs shouldn't be required. add them when needed.
+Metrics/AbcSize:
+  Enabled: false
+Layout/LineLength:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+Metrics/ParameterLists:
+  Max: 7
+  CountKeywordArgs: false
+Style/Documentation:
+  Enabled: false
+Naming/VariableNumber:
+  Enabled: true
+  AllowedPatterns: ['\d+_\d+']
+
+# differences from standard ruby style guide.
+Style/RegexpLiteral:
+  Enabled: false
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+Layout/FirstArrayElementIndentation:
+  Enabled: false
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+Style/NumericPredicate:
+  Enabled: false
+Style/FormatStringToken:
+  Enabled: false
+Style/MultilineBlockChain:
+  Enabled: false
+Style/IfUnlessModifier:
+  Enabled: false
+Layout/BlockAlignment:
+  EnforcedStyleAlignWith: start_of_block
+
+# things we need to have discussions about
+Style/GuardClause:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/NumericLiterals:
+  MinDigits: 6
+Style/SingleArgumentDig:
+  Enabled: false
+Style/StringConcatenation:
+  Enabled: false
+Lint/MissingSuper:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/NestedGroups:
+  Enabled: false
+RSpec/LetSetup:
+  Enabled: false
+
+# this cop currently results in thousands of violations
+# possibly revisit in future using configuration options
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+# this cop crashes rubocop
+RSpec/FactoryBot/CreateList:
+  Enabled: false
+
+# this cop crashes rubocop
+RSpec/Rails/HttpStatus:
+  Enabled: false
+
+# RSpec/ScatteredLet and RSpec/ScatteredSetup reformat code in a way that breaks
+# some of our specs. For example when using a before block to drain
+# FreshenCatalogTaskWorker and a let! to find the created task.
+RSpec/ScatteredLet:
+  Enabled: false
+RSpec/ScatteredSetup:
+  Enabled: false
+
+# we use "foo: foo" over "foo:" at the moment, both for historical reasons
+# and since it's possibly clearer.
+Style/HashSyntax:
+  EnforcedShorthandSyntax: never
+
+# Disabling this set of cops until we are migrated to Ruby 3.0 & 3.1
+# to reduce some noise on the merge
+Naming/BlockForwarding:
+  Enabled: false
+
+# we added a custom inflection so that OpenSSF is treated as one word instead of two
+# when converting between module names and snake case. Repeat that inflection here
+# so that the RSpec directory can match the Rails directory
+RSpec/FilePath:
+  CustomTransform:
+    OpenSSFScorecards: openssf_scorecards
+    OpenSSFScorecardService: openssf_scorecard_service
+
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/ExpectInHook:
+  Enabled: false
+
+# Turn off all the rails cops by default; we will bring them on one at a time.
+Rails:
+  Enabled: false
+
+Rails/Date:
+  Enabled: true
+
+Rails/Pluck:
+  Enabled: true
+
+Rails/TimeZone:
+  Enabled: true
